@@ -1,0 +1,14 @@
+<div class="mb-3">
+    <input
+        style="width: 120px;"
+        [class.is-invalid]="ngControl.touched && ngControl.invalid"
+        type={{type}}
+        class="form-control" 
+        [formControl]="ngControl.control"
+        placeholder={{label}}>
+    <div *ngIf="ngControl.control.errors?.required" class="invalid-feedback">{{label}} required</div>
+    <div *ngIf="ngControl.control.errors?.min"
+    class="invalid-feedback">{{label}} can't be lower than {{ngControl.control.errors.min['requiredLength']}}</div>
+    <div *ngIf="ngControl.control.errors?.max"
+    class="invalid-feedback">{{label}} can't be greater than {{ngControl.control.errors.max['requiredValue']}}</div>
+</div>

@@ -1,0 +1,30 @@
+<div class="comments">
+    <h3>Write Comment</h3>
+    <app-comment-form submitLabel='Post' (handleSubmit)="addComment({ body: $event, commentId: null })"></app-comment-form>
+    <app-comment *ngFor="let comment of comments"
+        [comment]="comment"
+        (setActiveComment)="setActiveComment($event)"
+        (addComment)="addComment($event)"
+        (deleteComment)="deleteComment($event)"
+        (updateComment)="updateComment($event)"
+        [activeComment]="activeComment"
+        [currentUserId]="currentUserId"
+        [discussionId]="discussionId"
+        [username]="username"
+        [photoUrl]="photoUrl"
+        >
+    </app-comment>
+</div>
+
+<div class="d-flex justify-content-center" *ngIf="pagination">
+    <pagination [boundaryLinks]="true"
+            [totalItems]="pagination.totalItems"
+            [itemsPerPage]="pagination.itemsPerPage"
+            [(ngModel)]="pagination.currentPage"
+            (pageChanged)="pageChanged($event)"
+            previousText="&lsaquo;"
+            nextText="&rsaquo;"
+            firstText="&laquo;"
+            lastText="&raquo;">
+    </pagination>
+</div>

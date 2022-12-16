@@ -1,0 +1,145 @@
+
+<table class="table table-striped">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col" class="text-center">#</th>
+            <th scope="col" class="" colspan="2">Game</th>
+            <th scope="col" class="text-center">Quantity</th>
+            <th scope="col">Price</th>
+            <th scope="col">Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of orderService.order.orderItems, let i = index">
+            <th scope="row" class="text-center">{{i+1}}</th>
+            <td>{{item.game}}<td>
+                <img src="{{item.gamePhotoUrl || './assets/noimage.png' }}" alt="{{item.game}}" class="game-photo">
+            </td>
+            <td class="text-center align-center">
+                <div class="btn-group btn-group-toggle">
+                    <button type="button"
+                        class="btn btn-success px-2 py-1"
+                        [disabled]="item.quantity < 1"
+                        (click)="removeOne(item)">-
+                    </button>
+                    <label class="btn btn-success mid-button border-primary">
+                        {{item.quantity}}
+                    </label>
+                    <button type="button"
+                        class="btn btn-success mid-button border-primary px-2 py-1"
+                        (click)="addOne(item)">+
+                    </button>
+                </div>
+
+                <button type="button"
+                class="btn btn-warning mx-2 px-2 py-1 border-primary"
+                (click)="removeItem(item.gameId)">
+                    X</button>
+            </td>
+            <td>{{item.price | currency}}</td>
+            <td>{{item.price * item.quantity | currency}}</td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="4"></td>
+            <th scope="row">Subtotal</th>
+            <td>{{orderService.order.subtotal | currency}}</td>
+        </tr>
+        <tr>
+
+            <td colspan="5">
+                <div class="form-group text-center my-2">
+                    <button class="btn btn-success mr-2"
+                    [disabled]="!canBeSubmitted"
+                    (click)="createOrder()">Complete Order</button>
+                    <div></div>
+                </div>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+<ng-template #showOrderTemp>
+    <table class="table table-striped">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col" class="text-center">#</th>
+                <th scope="col" class="">Game</th>
+                <th scope="col" class="text-center">Quantity</th>
+                <th scope="col">Price</th>
+                <th scope="col">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of orderService.order.orderItems, let i = index">
+                <th scope="row" class="text-center">{{i+1}}</th>
+                <td>{{item.game}}</td>
+                <td class="text-center align-center">
+                    {{item.quantity}}
+                </td>
+                <td>{{item.price | currency}}</td>
+                <td>{{item.price * item.quantity | currency}}</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3"></td>
+                <th scope="row">Subtotal</th>
+                <td>{{orderService.order.subtotal | currency}}</td>
+            </tr>
+            <tr>
+    
+                <td colspan="5">
+                    <div class="form-group text-center my-2">
+                        <button class="btn btn-success mr-2"
+                        [disabled]="!canBeSubmitted"
+                        (click)="createOrder()">Complete Order</button>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</ng-template>
+
+<h1 class="text-center text-success">Your order successfully submitted!</h1>
+<table class="table table-striped">
+    
+    <thead class="thead-light">
+        <tr>
+            <th scope="col" class="text-center">#</th>
+            <th scope="col" class="">Game</th>
+            <th scope="col" class="text-center">Quantity</th>
+            <th scope="col">Price</th>
+            <th scope="col">Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of orderService.order.orderItems, let i = index">
+            <th scope="row" class="text-center">{{i+1}}</th>
+            <td>{{item.game}}</td>
+            <td class="text-center align-center">
+                {{item.quantity}}
+            </td>
+            <td>{{item.price | currency}}</td>
+            <td>{{item.price * item.quantity | currency}}</td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3"></td>
+            <th scope="row">Subtotal</th>
+            <td>{{orderService.order.subtotal | currency}}</td>
+        </tr>
+        <tr>
+
+            <td colspan="5">
+                <div class="form-group text-center my-2">
+                    <button class="btn btn-info mr-2"
+                    [disabled]="!canBeSubmitted"
+                    (click)="createOrder()">Back to games</button>
+                </div>
+            </td>
+        </tr>
+    </tfoot>
+</table>

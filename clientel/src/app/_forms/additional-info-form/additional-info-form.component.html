@@ -1,0 +1,26 @@
+<form [formGroup]='form' (ngSubmit)="onSubmit()" autocomplete="off" class="offset-3 col-6">
+    <h2 class="text-center text-primary">Sign Up</h2>
+    <hr>
+
+    <app-text-input [formControl]='form.controls["firstName"]' [label]='"First Name"' [secondaryType]='"name"'></app-text-input>
+    <app-text-input [formControl]='form.controls["lastName"]' [label]='"Last Name"' [type]='"text"' [secondaryType]='"name"'></app-text-input>
+    <app-text-input [formControl]='form.controls["phone"]' [label]='"Phone"' [type]='"text"' [secondaryType]='"phone"'></app-text-input>
+    <mat-form-field>
+        <mat-label>Payment Method</mat-label>
+        <mat-select style="width: 60px;" formControlName="paymentType">
+            <mat-option *ngFor="let opt of options" [value]="opt">{{opt}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <app-text-input [formControl]='form.controls["comment"]' [label]='"Comment"' [type]='"textarea"' [height]="200"></app-text-input>
+    <div class="row" *ngIf="validationErrors.length <= 0">
+        <ul class="text-danger">
+            <li *ngFor="let error of validationErrors">
+                {{error}}
+            </li>
+        </ul>
+    </div>
+    <div class="form-group text-center">
+        <button [disabled]='!form.valid' class="btn btn-success mx-3" type="submit">Submit</button>
+        <button class="btn btn-info mx-3" (click)="onCancel()" type="button">Cancel</button>
+    </div>
+</form>

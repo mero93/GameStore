@@ -1,0 +1,18 @@
+<div class="border border-primary">
+    <div *ngFor="let discussion of discussions"
+        class="border border-primary mx-3 my-4 d-flex justify-content-between"
+        #tooltip="matTooltip" matTooltip="{{discussion.body}}"
+        [matTooltipPosition]="'below'" matTooltipHideDelay="50"
+        [routerLink]="'details/' + discussion.id"
+        routerLinkActive="'router-link-active'">
+        <div class="mx-2 width-50% border">
+            <h2><strong>{{discussion.title}}</strong></h2>
+            <p class="text-primary">{{discussion.username}}</p>
+        </div>
+        <div class="mx-2 mt-2 width-50% border">
+            <p>Last Activity: {{discussion.lastActivity | timeago}}</p>
+            <p>Date Posted: {{discussion.dateCreated | date: 'short'}}</p>
+            <p class="text-secondary">{{discussion.gameId}}</p>
+        </div>
+    </div>
+</div>

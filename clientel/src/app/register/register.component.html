@@ -1,0 +1,28 @@
+<mat-stepper linear #stepper class="bg-light-secondary border-info text-primary">
+    <mat-step class="text-primary border" >
+        <app-register-form [validationErrors]="validationRegistrationErrors"
+            (handleSubmit)="register($event)"
+            (handleCancel)="cancel(stepper)"
+        ></app-register-form>
+        <alert type="success mt-4" [dismissible]="true" [dismissOnTimeout]="5000" *ngIf="registrationSuccess">
+            <strong>Well done!</strong> You have successfully signed up!
+        </alert>
+    </mat-step>
+    <mat-step>
+        <ng-template matStepContent>
+            <app-additional-info-form
+                (handleSubmit)="addInfo($event)"
+                (handleCancel)="cancel(stepper)">
+            </app-additional-info-form>
+        </ng-template>
+    </mat-step>
+    <mat-step #finalStep>
+        <ng-template matStepLabel>Done</ng-template>
+        <p>You are now done.</p>
+        <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button (click)="stepper.reset()">Reset</button>
+        </div>
+    </mat-step>
+</mat-stepper>
+

@@ -1,0 +1,188 @@
+<form [formGroup]='filterForm' (ngSubmit)="applyFilters()" autocomplete="off" class="border border-info">
+    <div class="d-flex flex-row align-items-center justify-content-between p-1 py-2 bg-light">
+        <div class="row px-2">
+            <div class="col px-2">
+                <mat-form-field>
+                    <mat-label>Sort By</mat-label>
+                    <mat-select formControlName="sortBy">
+                        <mat-option *ngFor="let opt of options" [value]="opt">
+                            {{opt}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="col px-2">
+                Reverse: 
+                <mat-slide-toggle formControlName="reverseOrder"></mat-slide-toggle>
+            </div>
+        </div>
+
+        <div class="px-2">
+            <mat-form-field appearance="fill">
+                <mat-label>Publishers</mat-label>
+                <mat-select multiple formControlName="publishersFilter">
+                    <mat-option *ngFor="let publisher of publishers" [value]="publisher.name">
+                        {{publisher.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="px-2">
+            <mat-form-field appearance="fill">
+                <mat-label>Genres</mat-label>
+                <mat-select multiple formControlName="genresFilter">
+                    <mat-option *ngFor="let genre of genres" [value]="genre.name">
+                        {{genre.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <app-text-input [formControl]='filterForm.controls["searchString"]' [label]='"Search by name"'></app-text-input>
+
+        <div class="row px-3">
+            <div class="col px-0">
+                <button class="btn btn-success px-2 mx-2" type="submit" style="height: 40px;">Apply</button>
+            </div>
+
+            <div class="col px-0">
+                <button class="btn btn-info px-2 mx-2" type="button" (click)="resetFilters()" style="height: 40px;">Reset</button>
+            </div>
+        </div>
+    </div>
+
+
+    <mat-accordion class="col-12">
+        <mat-expansion-panel class="bg-light" hideToggle >
+            <mat-expansion-panel-header class="offset-5 bg-light col-3">
+                <mat-panel-title class="fill text-primary h5">
+                    Additional Filters
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="d-flex flex-row align-items-center justify-content-between p-1 py-2 bg-light">
+                <div>
+                    <div class="d-flex align-items-center">
+                        <h3 class="text-dark">Downloads:</h3>
+                        <app-number-input [formControl]="filterForm.controls['minDownloads']" [label]='"Minimum downloads"' class="px-2">
+                        </app-number-input>
+                    </div>
+                    <mat-form-field>
+                        <mat-label>Payment Type</mat-label>
+                        <mat-select style="width: 60px;" paymentType="minRating">
+                            <mat-option [value]="0.0">0.0</mat-option>
+                            <mat-option [value]="0.5">0.5</mat-option>
+                            <mat-option [value]="1.0">1.0</mat-option>
+                            <mat-option [value]="1.5">1.5</mat-option>
+                            <mat-option [value]="2.0">2.0</mat-option>
+                            <mat-option [value]="2.5">2.5</mat-option>
+                            <mat-option [value]="3.0">3.0</mat-option>
+                            <mat-option [value]="3.5">3.5</mat-option>
+                            <mat-option [value]="4.0">4.0</mat-option>
+                            <mat-option [value]="4.5">4.5</mat-option>
+                            <mat-option [value]="5.0">5.0</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                
+                <div class="align-items-center justify-content-center">
+                    <h3 class="text-dark px-2 text-center">Released</h3>
+                    <div class="d-flex align-items-center"> 
+                        <div class="d-flex align-items-center">
+                            
+                            <div class="d-flex align-items-center">
+                                <h3 class="text-dark px-2">From:</h3>
+                                <app-date-input [formControl]="filterForm.controls['minReleaseDateFilter']"
+                                [minDate]="minReleaseDateAbs" [maxDate]="maxReleaseDate" class="px-2">
+                                </app-date-input>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <h3 class="text-dark px-2">To:</h3>
+                            <app-date-input [formControl]="filterForm.controls['maxReleaseDateFilter']"
+                            [minDate]="minReleaseDate" [maxDate]="maxReleaseDateAbs" class="px-2">
+                            </app-date-input>
+                        </div>
+                    </div>
+                </div>
+                <div class="align-items-center justify-content-center">
+                    <h3 class="text-dark px-2 text-center" style="height: 30px;">Added</h3>
+                    <div class="d-flex align-items-center"> 
+                        <div class="d-flex align-items-center">
+                            
+                            <div class="d-flex align-items-center">
+                                <h3 class="text-dark px-2">From:</h3>
+                                <app-date-input [formControl]="filterForm.controls['minDateAddedFilter']"
+                                [minDate]="minDateAdded" [maxDate]="maxDateAdded" class="px-2">
+                                </app-date-input>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <h3 class="text-dark px-2">To:</h3>
+                            <app-date-input [formControl]="filterForm.controls['maxDateAddedFilter']"
+                            [minDate]="minDateAdded" [maxDate]="maxDateAdded" class="px-2">
+                            </app-date-input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-expansion-panel>
+    </mat-accordion>
+</form>
+
+<button *ngIf="isAdmin" type="button" class="btn btn-success my-4 mx-2 text-white border-primary" (click)="openModal(NewGameTemplate)"><strong>Add New Game</strong></button>
+
+<ng-template #NewGameTemplate>
+    <app-game-form class="my-2"
+    (handleSubmit)="addOrEditGame($event)"
+    (handleCancel)="close()"
+    [genres]="genres"
+    [publishers]="publishers"
+    ></app-game-form>
+</ng-template>
+
+<ng-template #EditGameTemplate>
+    <app-game-form class="my-2"
+    [model]="gameTo"
+    (handleSubmit)="addOrEditGame($event)"
+    (handleCancel)="close()"
+    [genres]="genres"
+    [publishers]="publishers"
+    ></app-game-form>
+</ng-template>
+
+<ng-template #DeleteGameTemplate>
+    <h3 class="text-warning text-center">Are you sure you wish to delete this game?</h3>
+    <div class="form-group text-center d-flex justify-content-center">
+        <div><button class="btn btn-warning mx-3 my-2 " type="button" (click)="deleteGame()">Delete</button></div>
+        <button class="btn btn-info mx-3 my-2" type="button" (click)="close()">Cancel</button>
+    </div>
+</ng-template>
+
+<br>
+
+<div class="row">
+    <div class="col-4" *ngFor="let game of games">
+            <app-game-card
+            [game]="game"
+            [isAdmin]="isAdmin"
+            (handleEditGame)="editGame($event)"
+            (handleAddImage)="addImage($event)"
+            (handleDeleteGame)="deleteGameDialog($event)"
+            ></app-game-card>
+    </div>
+</div>
+
+<div class="d-flex justify-content-center" *ngIf="pagination">
+    <pagination [boundaryLinks]="true"
+            [totalItems]="pagination.totalItems"
+            [itemsPerPage]="pagination.itemsPerPage"
+            [(ngModel)]="pagination.currentPage"
+            (pageChanged)="pageChanged($event)"
+            previousText="&lsaquo;"
+            nextText="&rsaquo;"
+            firstText="&laquo;"
+            lastText="&raquo;">
+    </pagination>
+</div>

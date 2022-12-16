@@ -1,0 +1,4 @@
+.mat-select-panel
+{
+    min-width: calc(100% + 25px) !important;
+}

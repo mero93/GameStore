@@ -1,0 +1,21 @@
+
+<div class="col-xs-12 col-12 col-md-5 col-lg-5 form-group mb-3">
+    <div class="form-group mb-3">
+        <input style="width: 135px"
+            type="text"
+            [class.is-invalid]='ngControl.touched && ngControl.invalid'
+            class="form-control"
+            [formControl]='ngControl.control'
+            placeholder="{{label}}"
+            bsDatepicker
+            [bsConfig]="bsConfig"
+            [maxDate]='maxDate'
+            [minDate]='minDate'>
+        <div *ngIf="ngControl.control.errors?.required" class="invalid-feedback">{{label}} is required</div>
+        <div *ngIf="ngControl.control.errors?.minlength" class="invalid-feedback">
+            From date should be greater than To date</div>
+        <div *ngIf="ngControl.control.errors?.maxlength" class="invalid-feedback">
+            To date should be greater than From date
+        </div>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+.category-list {
+    list-style-type: none;
+    display: inline;
+}
+
+.category-item {
+    padding: 0ch;
+    display: inline;
+}
+
+.category-item:after {
+    content: "|";
+}
+
+.category-item:first-child:after {
+    content: '\00a0';
+}
+
+.category-item:last-child:after {
+    content: '';
+}

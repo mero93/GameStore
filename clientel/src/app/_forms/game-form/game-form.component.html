@@ -1,0 +1,53 @@
+<form [formGroup]='form' (ngSubmit)="onSubmit()" autocomplete="off" class="m-5">
+    <h2 class="text-center text-primary my-2" *ngIf="(!model)">Add New Game</h2>
+    <h2 class="text-center text-primary my-2" *ngIf="(model)">Edit Game</h2>
+    <hr>
+    <div class="offset-3 col-6">
+        <app-text-input [formControl]='form.controls["name"]' [label]='"Title"'></app-text-input>
+        <app-text-input [formControl]='form.controls["description"]' [label]='"Description"'></app-text-input>
+        <app-date-input [formControl]="form.controls['releaseDate']"
+            class="px-2">
+        </app-date-input>
+        <app-number-input [formControl]='form.controls["price"]' [label]='"$"'></app-number-input>
+        <mat-form-field appearance="fill">
+            <mat-label>Genres</mat-label>
+            <mat-select multiple formControlName="categoriesId">
+                <mat-option *ngFor="let genre of genres" [value]="genre.id">
+                    {{genre.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Publisher</mat-label>
+            <mat-select formControlName="publisherId">
+                <mat-option *ngFor="let publisher of publishers" [value]="publisher.id">
+                    {{publisher.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <div class="row" *ngIf="validationErrors.length <= 0">
+            <ul class="text-danger">
+                <li *ngFor="let error of validationErrors">
+                    {{error}}
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <hr>
+    <app-photo-editor class="col-6"
+        [events]="eventsSubject.asObservable()"
+        [model]="model"
+        [imageUplModelType]="imageUplModelType"
+        (handleImageUploaded)="onImageUploaded($event)"
+    ></app-photo-editor>
+    <hr>
+    <div class="form-group text-center d-flex">
+        <button [disabled]='!form.valid' class="btn btn-success mx-3 my-2" type="submit" *ngIf="(!model)">Add</button>
+        <button [disabled]='!form.valid' class="btn btn-success mx-3 my-2" type="submit" *ngIf="(model)">Edit</button>
+        <button class="btn btn-info mx-3 my-2" (click)="onCancel()" type="button">Cancel</button>
+    </div>
+    <br>
+</form>
+

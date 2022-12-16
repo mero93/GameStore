@@ -1,0 +1,64 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top p-3 text-bg-light bg-dark border border-primary h6">
+    <div class="container">
+        <ul class="navbar-nav me-auto text-">
+          <li class="nav-item"><a class="nav-link" routerLink="/games" routerLinkActive='active'>Games</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/genres" routerLinkActive='active'>Genres</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/publishers" routerLinkActive='active'>Publishers</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/news" routerLinkActive='active'>News</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/discussions">Discussions</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/errors" routerLinkActive='active'>Errors</a></li>
+        </ul>
+
+        <div *ngIf="orderService.order.orderItems.length === 0" class="Basket px-4">
+            <mat-icon matBadgeColor="warn">shopping_cart</mat-icon>
+        </div>
+        <div *ngIf="orderService.order.orderItems.length > 0" class="Basket px-4 text-white">
+            <a class="nav-link" routerLink="/basket">
+                <mat-icon matBadge="{{orderService.order.orderItems.length}}" matBadgeColor="warn">shopping_cart</mat-icon>
+            </a>
+        </div>
+
+        <div class="dropdown nav-link" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
+            <img src="{{user.photoUrl || './assets/user.png'}}" class="rounded avatar" alt="{{user.username}}">
+            <a class="btn dropdown-toggle text-white ms-2 text-decoration-none" dropdownToggle>Welcome {{user.username | titlecase}}</a>
+            <div class="dropdown-menu mt-3" *dropdownMenu>
+                <a routerLink='/member/profile' class="dropdown-item">View Profile</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" (click)="logout()" >Logout</a>
+            </div>
+        </div>
+
+        <button *ngIf="(accountService.currentUser$ | async) === null" type="button" class="btn btn-success my-2 my-sm-0 mx-2 text-light" (click)="openModal(logInTemplate)">Log In</button>
+        <button *ngIf="(accountService.currentUser$ | async) === null" type="button" class="btn btn-primary mx-2 text-light" (click)="register()">Sign Up</button>
+
+        <ng-template #logInTemplate>
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">Enter your Credentials</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">X</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #loginForm="ngForm" class="d-flex mt-2 mt-md-0" (ngSubmit)="login()" 
+                autocomplete="off">
+                <input 
+                    name="usernameoremail"
+                    [(ngModel)]="model.usernameoremail"
+                    class="form-control me-sm-2" 
+                    type="text"
+                    placeholder="Email/username">
+                <input 
+                    name="password"
+                    [(ngModel)]="model.password"
+                    class="form-control me-sm-2" 
+                    type="Password" 
+                    placeholder="Password">
+                <button class="btn btn-success my-2 my-sm-0" type="submit" (ngModelChange)="modalRef.hide()">Log In</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" (click)="modalRef.hide()">Close</button>
+            </div>
+        </ng-template>
+    </div>
+</nav>

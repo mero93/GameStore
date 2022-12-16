@@ -1,0 +1,40 @@
+<div class="row">
+    <div class="col-5">
+        <img src="{{'/assets/' + game.id + '.jpg'}}" alt="{{game.name}}" 
+        class="card-img-top img-thumbnail border-primary mb-2">
+            <button type="button" class="btn btn-success my-2 my-sm-0 text-white border border-primary" (click)="orderService.addToOrder(game)">
+            BUY {{game.price | currency: "$"}}</button>
+        <h6 class="text-left mb-1 pt-1">
+            Title: {{game.name}}
+        </h6>
+        <p class="card-text py-0 my-0 text-left">
+            Publisher: {{game.publisher}} Date: {{game.releaseDate | date :"dd-MMM-yyyy"}}
+        </p>
+        <ul class="category-list px-0 pb-0 bd-highlight card-text text-muted text-left">
+            <li class="category-item">Genres:</li>
+            <li class="category-item padding-left-2 bd-highlight" *ngFor="let category of game.categories">
+                {{category}}
+            </li>
+        </ul>
+        <p><span><rating [(ngModel)] = "game.rating" [readonly]="false">
+        </rating><span *ngIf="game.ratingNumber>0">({{game.ratingnumber}})</span></span></p>
+        
+        <p class="card-text py-0 my-0 text-muted text-left">
+            {{game.description}}
+        </p>
+    </div> 
+    <div class="col-7">
+        <tabset class="game-tabset">
+            <tab heading="Reviews">
+                <p>here goes review</p>
+            </tab>
+            <tab heading="News">
+                <p>here goes news</p>
+            </tab>
+            <tab heading="Discussions">
+                <p>here goes discussion</p>
+            </tab>
+        </tabset>
+    </div>
+</div>
+

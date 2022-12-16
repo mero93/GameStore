@@ -1,0 +1,30 @@
+<div class="mb-3">
+    <input *ngIf="type !== 'textarea'" [ngStyle]="{'height.px': height}"
+        [class.is-invalid]="ngControl.touched && ngControl.invalid"
+        type={{type}}
+        class="form-control" 
+        [formControl]="ngControl.control"
+        placeholder={{label}}>
+    <textarea *ngIf="type ==='textarea'" [ngStyle]="{'height.px': height}"
+        [class.is-invalid]="ngControl.touched && ngControl.invalid"
+        class="form-control" 
+        [formControl]="ngControl.control"
+        placeholder={{label}}></textarea>
+    <div *ngIf="ngControl.control.errors?.required" class="invalid-feedback">{{label}} required</div>
+    <div *ngIf="ngControl.control.errors?.minlength"
+    class="invalid-feedback">{{label}} must be at least {{ngControl.control.errors.minlength['requiredLength']}} long</div>
+    <div *ngIf="ngControl.control.errors?.maxlength"
+    class="invalid-feedback">{{label}} must be at most {{ngControl.control.errors.maxlength['requiredLength']}} long</div>
+    <div *ngIf="ngControl.control.errors?.email"
+    class="invalid-feedback">{{label}} should be of valid format</div>
+    <div *ngIf="ngControl.control.errors?.isMatching"
+    class="invalid-feedback">Passwords do not match</div>
+    <div *ngIf="type == 'password' && ngControl.control.errors?.pattern"
+    class="invalid-feedback">Password must contain at least one numueric, uppercase, lowercase and special symbols</div>
+    <div *ngIf="secondaryType == 'username' && ngControl.control.errors?.pattern"
+    class="invalid-feedback">{{label}} can only contain alphanumeric symbols</div>
+    <div *ngIf="secondaryType == 'name' && ngControl.control.errors?.pattern"
+    class="invalid-feedback">{{label}} must contain only alphabetic symbols</div>
+    <div *ngIf="secondaryType == 'phone' && ngControl.control.errors?.pattern"
+    class="invalid-feedback">{{label}} must be valid phone</div>
+</div>

@@ -1,0 +1,48 @@
+<div class="row">
+    <div class="col-5 h5">
+        <img src="{{user.photoUrl || './assets/noimage.png' }}" alt="{{user.username}}" 
+        class="card-img-top img-thumbnail border-primary mb-2">
+        <div class="text-left mb-1 pt-1">
+            Username: {{user.username}}
+        </div>
+        <div class="text-left mb-1 pt-1"
+        *ngIf="user.additionalInfo">
+            Email: <!-- {{info.email}} -->
+        </div>
+        <div class="text-left mb-1 pt-1"
+        *ngIf="user.additionalInfo">
+            First name: {{info.firstName}}
+        </div>
+        <div class="text-left mb-1 pt-1"
+        *ngIf="user.additionalInfo">
+            Last name: {{info.lastName}}
+        </div>
+        <div class="text-left mb-1 pt-1"
+        *ngIf="user.additionalInfo">
+            Phone: {{info.phone}}
+        </div>
+        <div class="text-left mb-1 pt-1"
+        *ngIf="user.additionalInfo">
+            Payment method: {{info.paymentType}}
+        </div>
+        <div class="text-left mb-1 pt-1"
+        *ngIf="user.additionalInfo">
+            Additional order instructions: {{info.lastName}}
+        </div>
+    </div> 
+    <div class="col-7">
+        <tabset class="game-tabset">
+            <tab heading="Reviews">
+                <app-additional-info-form
+                    (handleSubmit)="addInfo($event)"
+                    [hideCancel]="true">
+                </app-additional-info-form>
+            </tab>
+            <tab heading="Discussions">
+                <p>here goes discussion</p>
+            </tab>
+            <tab heading="Info">
+            </tab>
+        </tabset>
+    </div>
+</div>

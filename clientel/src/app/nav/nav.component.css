@@ -1,0 +1,13 @@
+.dropdown-toggle, .dropdown-item {
+    cursor: pointer;
+}
+
+.avatar {
+    height: 40px;
+    width: 40px;
+}
+
+.fa-disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

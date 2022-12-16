@@ -1,0 +1,79 @@
+<div class = 'py-2 my-2 border border-primary rounded'>
+    <div class="comment-image-container d-flex px-2">
+        <img src="{{comment.photoUrl || './assets/user.png'}}" class="rounded avatar img-float" alt="{{comment.username}}"/>
+        <div class="px-2 text-primary" style="font-size: 1.3em;">
+            {{comment.username}}
+        </div>
+        
+    </div>
+    <div class="d-flex inline text-secondary">
+        <div class="px-2">Posted: {{comment.dateCreated | timeago}}</div>
+        <div *ngIf="comment.dateUpdated != null">|</div>
+        <div class="px-2" *ngIf="comment.dateUpdated != null">Updated: {{comment.dateUpdated | timeago}}</div>
+    </div>
+    <div class="comment-right-part px-2" *ngIf="!isEditing()">
+        {{comment.body}}
+    </div>
+    <div>
+        <span class="px-2"> ID: {{comment.id}} ReplyID: {{replyId}} CanReply: {{canReply}}</span>
+    </div>
+    <app-comment-form
+        *ngIf="isEditing()"
+        submitLabel="Update"
+        [hasCancelButton]="true"
+        [initialText]="comment.body"
+        (handleSubmit)="updateComment.emit({ body: $event, id: comment.id, commentId: comment.commentId })"
+        (handleCancel)="setActiveComment.emit(null)"
+    ></app-comment-form>
+    <div class="px-2 comment-actions">
+        <div *ngIf="canReply" class = "comment-action text-info" (click)="setActiveComment.emit({
+            id: comment.id, type: activeCommentType.replying})">
+            Reply
+        </div>
+        <div *ngIf="canEdit" class = "comment-action text-info" (click)="setActiveComment.emit({
+            id: comment.id, type: activeCommentType.editing})">
+            Edit
+        </div>
+        <div *ngIf="canDelete" class = "comment-action text-info" (click)="deleteComment.emit({id: comment.id, commentId: comment.commentId})">
+            Delete
+        </div>
+    </div>
+    <app-comment-form
+        *ngIf="isReplying()"
+        submitLabel="Reply"
+        [hasCancelButton]="true"
+        (handleSubmit)="addComment.emit({ body: $event, commentId: replyId })"
+        (handleCancel)="setActiveComment.emit(null)"
+    ></app-comment-form>
+    
+    <div class="replies px-4" *ngIf="comment.replies.length > 0">
+        these are replies
+        <app-comment *ngFor="let reply of comment.replies"
+        [comment]="reply"
+        (setActiveComment)="setActiveComment.emit($event)"
+        (addComment)="addComment.emit($event)"
+        (deleteComment)="deleteComment.emit($event)"
+        (updateComment)="updateComment.emit($event)"
+        [activeComment]="activeComment"
+        [currentUserId]="currentUserId"
+        [discussionId]="discussionId"
+        [username]="username"
+        [photoUrl]="photoUrl"
+        ></app-comment>
+    </div>
+
+    <!-- <div class="replies px-4" *ngIf="comment.replies.length > 0">
+        these are replies
+        <app-reply *ngFor="let reply of comment.replies"
+        [comment]="reply"
+        [activeReply]="activeReply"
+        (setActiveReply)="setActiveReply.emit($event)"
+        (updateComment)="updateComment.emit($event)"
+        (deleteComment)="deleteComment.emit($event)"
+        (addComment)="addComment.emit({$event})"
+        [parentId]="comment.id"
+        [replies]="[]"
+        [currentUserId]="currentUserId"
+        ></app-reply>
+    </div> -->
+</div>
